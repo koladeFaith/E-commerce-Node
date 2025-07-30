@@ -46,11 +46,25 @@ exports.signup = async (request, response) => {
         }
     })
     response.status(200).json({
-        message: "User registered successfully",
+        message: "Account registered successfully",
         status: "success",
         data: {
             user: { firstName, lastName, email },
 
         }
     });
+}
+exports.signin = async (request, response) => {
+    const { email, password } = request.body
+    const user = await User.findOne({ email })
+    if (!user) {
+        response.status(400).json({ message: "User not found" })
+        return
+    }
+    const match = await bcrypt.compare(password, user.password)
+    if (!match) return response.status(401).json({ message: "Incorrect password" })
+    response.status(200).json({
+        message: "Login successful", user,
+        status: "success"
+    })
 }
