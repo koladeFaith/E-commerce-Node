@@ -13,7 +13,7 @@ app.use(cors({
     origin: 'http://localhost:5173', // your React app port
     credentials: true
 }));
-app.use("/api", userRouters)
+app.use("/user", userRouters)
 app.get('/', (request, response) => {
     response.sendFile(__dirname + '/index.html')
 })
