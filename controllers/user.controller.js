@@ -2,6 +2,7 @@ const User = require('../models/user.model')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 const nodemailer = require("nodemailer")
+const jwt = require("jsonwebtoken")
 
 exports.signup = async (request, response) => {
 
@@ -63,6 +64,11 @@ exports.signin = async (request, response) => {
     }
     const match = await bcrypt.compare(password, user.password)
     if (!match) return response.status(401).json({ message: "Incorrect password" })
+    jwt.sign({ user: user }, process.env.JWT_SECRET, { expiresIn: "5m" }, (err, token) => {
+        console.log(token);
+
+    })
+    response.status(201).json({ token: token })
     response.status(200).json({
         message: "Login successful", user,
         status: "success"
