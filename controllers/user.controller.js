@@ -64,10 +64,10 @@ exports.signin = async (request, response) => {
     }
     const match = await bcrypt.compare(password, user.password)
     if (!match) return response.status(401).json({ message: "Incorrect password" })
-    jwt.sign({ user: user }, process.env.JWT_SECRET, { expiresIn: "5m" }, (err, token) => {
-        console.log(token);
-        response.status(201).json({ token: token })
-    })
+    // jwt.sign({ user: user }, process.env.JWT_SECRET, { expiresIn: "5m" }, (err, token) => {
+    // console.log(token);
+    // response.status(201).json({ token: token })
+    // })
     response.status(200).json({
         message: "Login successful", user,
         status: "success"
